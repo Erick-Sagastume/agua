@@ -1,0 +1,83 @@
+{% extends 'Base/base.html' %}
+{% load static %}
+
+
+{% block title %}user{% endblock %}
+
+{% block content %}
+
+<div class="container">
+  <a href="{% url 'NuevoUser' %}" class="btn btn-info">Nuevo Personal</a>
+
+  <a href="{% url 'ListaUser' %}" class="btn btn-warning"> Personal Activos</a>
+</div>
+{% if messages %}
+          {% for message in messages %}
+          {% if message.tags == "success" %}
+            <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+              <i class="bi bi-check-circle me-1"></i>
+                    {{message}}
+              <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+          {% else %}
+          <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <i class="bi bi-exclamation-octagon me-1"></i>
+            {{message}}
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>
+          {% endif %}  
+          {% endfor %}
+{% endif %}
+
+<div class="col-12">
+  <div class="card my-4">
+<div class="container-fluid py-4">
+    <div class="card-box mb-30"><br>
+        <h4 align="center" class="text-primary">LISTADO DE USUARIOS INACTIVOS</h4>
+        <br>
+        <table class="table table-hover table-bordered table-sm">
+            <thead align="center">
+              <tr>
+                <div class="card-body px-0 pb-2">
+                <th scope="col">Usuario</th>
+                <th scope="col">Nombres de Usuario</th>
+                <th scope="col">Rol de Sistema</th>
+                <th scope="col">Acceso a Panel</th>
+                <th scope="col">Privilegios Super Usuario</th>
+                <th scope="col">Activo</th>
+                <th scope="col">Accion</th>
+              </tr>
+            </thead>
+            <tbody align="center">
+              {% for u in usuarios %}
+              <tr>
+                <th scope="row">{{u.username}}</th>
+                <td>{{u.first_name}} {{u.last_name}}</td>
+                <td>{{u.rol}}</td>
+                {% if u.is_staff == True %}
+                <td class="table-success">Si</td>
+                {% else %}
+                <td class="table-danger">No</td>
+                {% endif %}
+                {% if u.is_superuser == True %}
+                <td class="table-success">Si</td>
+                {% else %}
+                <td class="table-danger">No</td>
+                {% endif %}
+                {% if u.is_active == True %}
+                <td class="table-success">Si</td>
+                {% else %}
+                <td class="table-danger">No</td>
+                {% endif %}
+                <td>
+                    <a class="btn btn-warning btn-sm" title="Modificar" type="button" href="{% url 'UpdateUser' u.username %}"><i class="material-icons opacity-10"></i>Modificar</a>
+                
+                </td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+    </div>
+</div>        
+
+{% endblock %}

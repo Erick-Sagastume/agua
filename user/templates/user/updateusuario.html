@@ -1,0 +1,124 @@
+{% extends 'Base/base.html' %}
+
+{% block title %}Nueva Lectura{% endblock %}
+
+{% block content %}
+
+<div class="container" style="background-color: white;"><br>
+    <div class="row">
+        <div class="col-md-6">
+            <h3>FORMULARIO INGRESO NUEVA LECTURA</h3>
+        </div>
+        <div class="col-md-6" align="right">
+            <a href="{% url 'Inicio' %}"><i class="material-icons opacity-10" style="font-size: 35px;"
+                    title="Inicio">home</i></a>
+        </div>
+    </div>
+
+    <form action="#" method="POST" enctype="multipart/form-data">{% csrf_token %}
+
+        <div class="row">
+
+            <div class="col-md-3">
+                    <label class="form-label">Numero de Usuario</label>
+                    {{form.username}}
+            </div>
+            <div class="col-md-3">
+                    <label class="form-label">Password</label>
+                    {{form.password}}
+            </div>
+            <div class="col-md-3">
+                    <label class="form-label">Nombres</label>
+                    {{form.first_name}}
+            </div>
+
+        </div>
+
+        <div class="row">
+
+            <div class="col-md-3">
+                    <label class="form-label">Apellidos</label>
+                    {{form.last_name}}
+            </div>
+
+            <div class="col-md-3">
+                <label class="form-label">Rol</label>
+                    {{form.rol}}
+            </div>
+            <div class="col-md-3">
+                <label class="form-label">Correo</label>
+                    {{form.email}}
+            </div>
+        </div>
+
+        <div class="row">
+
+            <div class="col-md-3">
+                <label class="form-label">Es Staff</label>
+                    {{form.is_staff}}
+            </div>
+            <div class="col-md-3">
+                <label class="form-label">Es Usuario Activo</label>
+                    {{form.is_active}}
+            </div>
+            <div class="col-md-3">
+                <label class="form-label">Es Super Usuario</label>
+                    {{form.is_superuser}}
+            </div>
+
+        </div>
+
+        <div class="row">
+
+            <div class="col-md-10">
+                {% if messages %}
+                {% if messages.tag == "success" %}
+                {% for message in messages %}
+                <div class="alert alert-success alert-dismissible text-white" role="alert">
+                    <span class="text-sm">{{message}}</span>
+                    <button type="button" class="btn-close text-lg py-3 opacity-10" data-bs-dismiss="alert"
+                        aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                {% endfor %}
+                {% else %}
+                {% for message in messages %}
+                <div class="alert alert-danger alert-dismissible text-white" role="alert">
+                    <span class="text-sm">{{message}}</span>
+                    <button type="button" class="btn-close text-lg py-3 opacity-10" data-bs-dismiss="alert"
+                        aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                {% endfor %}
+                {% endif %}
+                {% endif %}
+            </div>
+
+            <div class="col-md-10" align="center"><br>
+                <button type="submit" class="btn btn-sm btn-success">Guardar</button>
+                <button type="reset" class="btn btn-sm btn-danger">Cancelar</button>
+            </div>
+
+        </div>
+
+
+    </form>
+
+</div>
+
+
+<script>
+    function clic() {
+        var anterior = document.getElementById("anterior").value;
+        var actual = document.getElementById("actual").value;
+
+
+        var resultado = parseFloat(actual) - parseInt(anterior);
+
+        var consumo = document.getElementById('consumo').value = resultado;
+    }
+</script>
+
+{% endblock %}
