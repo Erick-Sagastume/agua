@@ -1,0 +1,60 @@
+{% extends 'Base/base.html' %}
+{% block title %}Cobros{% endblock %}
+{% block content %}
+
+<div class="container">
+    <a href="{% url 'ListaCobros' %}" class="btn btn-info">Lista de Cobros</a>
+    <a href="{% url 'Buscar' %}" class="btn btn-success">Buscar Cuenta</a>
+</div>
+
+<div class="container" style="background-color: white;"><br>
+    <div class="row">
+        <div class="col-md-6">
+            <h5>FORMULARIO PARA COBRO DE SERVICIOS</h5>
+        </div>
+        <div class="col-md-6" align="right">
+        </div>
+    </div>
+
+    <form action="#" method="POST" enctype="multipart/form-data">{% csrf_token %}
+
+        <div class="row">
+            <div class="col-md-4">
+                <div class="input-group input-group-outline my-3">
+                    <label class="form-label">Numero de Cuenta</label>
+                    <input type="text" class="form-control" name="cuenta" autofocus="cuenta" required>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4" align="right">
+                <button type="submit" class="btn btn-sm btn-success">Buscar</button>
+                <button type="reset" class="btn btn-sm btn-danger">Cancelar</button>
+            </div>
+            {% if messages %}
+            <div class="col md 12"><br>
+                
+                {% for message in messages %}
+                <div class="alert alert-{{messages.tags}}" role="alert">
+                    {{message}}
+                </div>
+                {% endfor %}
+                
+            </div>
+            {% endif %}
+        </div>
+    </form>
+</div>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+
+{% endblock %}

@@ -1,0 +1,145 @@
+{% extends 'Base/base.html' %}
+{% block title %}Nueva Lectura{% endblock %}
+{% block content %}
+
+
+<a href="{% url 'Cobros' %}" class="btn btn-warning"> REGRESAR</a>
+
+<div class="container" style="background-color: white;"><br>
+    <div class="row">
+        <div class="col-md-6">
+            <h3>BUSCAR CUENTA</h3>
+        </div>
+        <div class="col-md-6" align="right">
+            <a href="{% url 'Inicio' %}"><i class="material-icons opacity-10" style="font-size: 35px;"
+                    title="Inicio"></i></a>
+        </div>
+    </div>
+
+    <form action="#" method="POST" enctype="multipart/form-data">{% csrf_token %}
+        <div class="row">
+            <div class="col-md-3">
+                <div class="input-group input-group-outline my-4">
+                    <label class="form-label">Buscar</label>
+                    <input type="text" class="form-control" name="buscar" autofocus="buscar" required>
+                </div>
+            </div>
+            
+        </div>
+
+        <div class="row">
+            <div class="col-md-10">
+                {% if messages %}
+                {% if messages.tag == "success" %}
+                {% for message in messages %}
+                <div class="alert alert-danger alert-dismissible text-white" role="alert">
+                    <span class="text-sm">{{message}}</span>
+                    <button type="button" class="btn-close text-lg py-3 opacity-10" data-bs-dismiss="alert"
+                        aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                {% endfor %}
+                {% else %}
+                {% for message in messages %}
+                <div class="alert alert-success alert-dismissible text-white" role="alert">
+                    <span class="text-sm">{{message}}</span>
+                    <button type="button" class="btn-close text-lg py-3 opacity-10" data-bs-dismiss="alert"
+                        aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                {% endfor %}
+                {% endif %}
+                {% endif %}
+            </div>
+
+            <div class="col-md-10" align="right">
+                <button type="submit" class="btn btn-sm btn-success">Buscar</button>
+                <button type="reset" class="btn btn-sm btn-danger">Cancelar</button>
+            </div>
+        </div>
+    </form>
+
+    {% if b %}
+
+    <div class="row">
+        <div class="col-12">
+            <div class="card my-4">
+                <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+                    <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
+                        <h6 class="text-white text-capitalize ps-3">Listado de Busqueda</h6>
+                    </div>
+                </div>
+                <div class="card-body px-0 pb-2">
+                    <div class="table-responsive p-0">
+                        <table class="table align-items-center mb-0">
+                            <thead>
+                                <tr>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                        Cuenta</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                            Nombre</th>
+                                    <th class="text-secondary opacity-7"></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for c in cuenta %}
+                                <tr>
+                                    <td>
+                                        <div class="d-flex px-2 py-1">
+                                            <div class="d-flex flex-column justify-content-center">
+                                                <h6 class="mb-0 text-sm">{{c.id_cuenta}}</h6>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="d-flex px-2 py-1">
+                                            <div class="d-flex flex-column justify-content-center">
+                                                <h6 class="mb-0 text-sm">{{c.dpi.nombre}}</h6>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    
+                                    <td class="align-middle">
+                                        <a href="{% url 'NuevoCobro' c.id_cuenta %}" class="text-info font-weight-bold text-xs" data-toggle="tooltip"
+                                            data-original-title="Edit user">
+                                            Agregar
+                                        </a><br>  
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {% else %}
+    {% endif %}
+
+</div>
+
+<script>
+    function clic() {
+        var anterior = document.getElementById("anterior").value;
+        var actual = document.getElementById("actual").value;
+        var resultado = parseFloat(actual) - parseInt(anterior);
+        var consumo = document.getElementById('consumo').value = resultado;
+    }
+</script>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+{% endblock %}

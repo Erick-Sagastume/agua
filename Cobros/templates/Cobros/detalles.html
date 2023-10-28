@@ -1,0 +1,157 @@
+{% extends 'Base/base.html' %}
+{% block content %}
+{% if messages %}
+
+<div class="col md 12"><br>  
+    {% for message in messages %}
+    <div class="alert alert-{{messages.tags}}" role="alert">
+        {{message}}
+    </div>
+    {% endfor %}   
+</div>
+{% endif %}
+
+<div class="container" style="background-color: white;"><br>
+    <div class="row">
+        <div class="col-md-6">
+            <h5>Detalle De Cobros a Usuarios</h5>
+        </div>
+        <div class="col-md-6" align="right">
+            <a href="{% url 'Inicio' %}"><i class="material-icons opacity-10" style="font-size: 35px;"
+                    title="Inicio">Inicio</i></a>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-4">
+            <label class="">Numero Cuenta</label>
+            <p><strong class="text-danger">{{cliente.id_cuenta}}</strong></p>
+        </div>
+        <div class="col-md-4">
+            <label class="form-label">Propietarios</label>
+            <p><strong class="text-danger">{{cliente.dpi.nombre}} {{cliente.dpi.apellido}}</strong></p>
+        </div>
+        <div class="col-md-4">
+            <label class="form-label">Direccion de Servicio</label>
+            <p><strong class="text-danger">{{cliente.direccion}}</strong></p>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-4">
+            <label class="">Total Adeuda</label>
+            {% if adeuda == None %}
+            <p><strong class="text-danger">Q.0.00</strong></p>
+            {% else %}
+            <p><strong class="text-danger">Q.{{adeuda}}</strong></p>
+            {% endif %}
+        </div>
+        <div class="col-md-4">
+            <label class="form-label">Fecha Cobro</label>
+            <p><strong class="text-danger">{% now 'd-m-Y' %}</strong></p>
+        </div>
+        <div class="col-md-4">
+            <label class="form-label">Usuario</label>
+            <p><strong class="text-danger">{{user.username}}</strong></p>
+        </div>
+    </div>
+</div>
+
+<br>
+<div class="container" style="background-color: white; width: 100%;"><br>
+    <div class="row">
+        <div class="col-md-6">
+            <h5>COBROS PENDIENTES</h5>
+        </div>
+        <div class="col-md-6" align="right">
+            <form action="#" method="POST">{% csrf_token %}
+            <button name="fin" class="btn btn-warning">Finalizar</buttonf=>
+            </form>
+        </div>
+    </div>
+    <div class="table-responsive">
+        <table class="table table-sm table-bordered">
+            <thead>
+                <tr>
+                    <th scope="col">Mes</th>
+                    <th scope="col">Ciclo</th>
+                    <th scope="col">Anterior</th>
+                    <th scope="col">Actual</th>
+                    <th scope="col">Consumo</th>
+                    <th scope="col">Exceso</th>
+                    <th scope="col">Cargo Mes</th>
+                    <th scope="col">Cargo Exceso</th>
+                    <th scope="col">Total a Pagar</th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for d in lecturas %}
+                <tr>
+                    <td>{{d.mes}}</td>
+                    <td>{{d.ciclo}}</td>
+                    <td>{{d.anterior}}</td>
+                    <td>{{d.actual}}</td>
+                    <td>{{d.consumo}}</td>
+                    <td>{{d.exceso}}</td>
+                    <td>Q.{{d.cargo_mes}}</td>
+                    <td>Q.{{d.cargo_exceso}}</td>
+                    <td>Q.{{d.cargo_total}}</td>
+                    <form action="#" method="POST" enctype="multipart/form-data">{% csrf_token %}
+                        <input type="hidden" name="correlativo" value="{{d.id}}">
+
+                        <td><button class="btn btn-sm btn-success" name="pagar">PAGAR</button></td>
+                    </form>
+                </tr>
+                {% empty %}
+                <caption>CUENTA AL DIA</caption>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script type="text/javascript">
+    (function (document) {
+        'use strict';
+
+        var LightTableFilter = (function (Arr) {
+
+            var _input;
+
+            function _onInputEvent(e) {
+                _input = e.target;
+                var tables = document.getElementsByClassName(_input.getAttribute('data-table'));
+                Arr.forEach.call(tables, function (table) {
+                    Arr.forEach.call(table.tBodies, function (tbody) {
+                        Arr.forEach.call(tbody.rows, _filter);
+                    });
+                });
+            }
+
+            function _filter(row) {
+                var text = row.textContent.toLowerCase(), val = _input.value.toLowerCase();
+                row.style.display = text.indexOf(val) === -1 ? 'none' : 'table-row';
+            }
+
+            return {
+                init: function () {
+                    var inputs = document.getElementsByClassName('light-table-filter');
+                    Arr.forEach.call(inputs, function (input) {
+                        input.oninput = _onInputEvent;
+                    });
+                }
+            };
+        })(Array.prototype);
+
+        document.addEventListener('readystatechange', function () {
+            if (document.readyState === 'complete') {
+                LightTableFilter.init();
+            }
+        });
+    })(document);
+</script>
+
+
+
+{% endblock %}
