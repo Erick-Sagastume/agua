@@ -1,0 +1,149 @@
+{% extends 'Base/base.html' %}
+
+{% block title %}Servicio{% endblock %}
+
+{% block content %}
+<div class="container" style="display: block;">
+    <a href="{% url 'NuevoServicio' %}" class="btn btn-info">Nuevo Servico</a>
+    <a href="{% url 'ListaServicio' %}" class="btn btn-warning"> Servicios Inactivos</a>
+    <div class="col-md-12">
+        {% if messages %}
+        {% for message in messages %}
+        <div class="alert alert-success alert-dismissible text-white" role="alert">
+            <span class="text-sm">{{message}}</span>
+            <button type="button" class="btn-close text-lg py-3 opacity-10" data-bs-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        {% endfor %}
+        {% endif %}
+    </div>
+</div>
+
+</div>
+
+<div class="container-fluid py-4">
+
+    <nav aria-label="Page navigation example">
+        <ul class="pagination">
+            {% if page_obj.has_previous %}
+            <li class="page-item disabled">
+                <a class="page-link" href="?page={{ page_obj.previous_page_number }}">Previous</a>
+            </li>
+            {% endif %}
+
+
+            {% for i in page_obj.paginator.page_range %}
+
+            {% if i == page_obj.number %}
+            <li class="page-item active">
+                <a class="page-link" href="#">{{ i }}</a>
+            </li>
+            {% else %}
+            <li class="page-item">
+                <a class="page-link" href="?page={{ i }}">{{ i }}</a>
+            </li>
+            {% endif %}
+
+            {% endfor %}
+
+            {% if page_obj.has_next %}
+            <li class="page-item">
+                <a class="page-link" href="?page={{ page_obj.next_page_number }}">Next</a>
+            </li>
+            {% endif %}
+
+        </ul>
+    </nav>
+
+    <div class="row">
+
+        <div class="col-12">
+            <div class="card my-4">
+                <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+                    <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
+                        <h6 class="text-white text-capitalize ps-3">Listado de Servicios</h6>
+                    </div>
+                </div>
+                <div class="card-body px-0 pb-2">
+                    <div class="table-responsive p-0">
+                        <table class="table align-items-center mb-0">
+                            <thead>
+                                <tr>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                        Servicios</th>
+                                    <th
+                                        class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+                                        Nombres</th>
+                                    <th
+                                        class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                        Limite</th>
+                                    <th
+                                        class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                        Precio</th>
+                                    <th
+                                        class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                        Antiguedad</th>
+                                    <th class="text-secondary opacity-7"></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for s in servicios %}
+                                <tr>
+                                    <td>
+                                        <div class="d-flex px-2 py-1">
+                                            <div class="d-flex flex-column justify-content-center">
+                                                <h6 class="mb-0 text-sm">{{s.id_servicio}}</h6>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <p class="text-xs font-weight-bold mb-0">{{s.nombre}}</p>
+                                    </td>
+                                    <td>
+                                        <p class="text-xs font-weight-bold mb-0">{{s.limite}}</p>
+                                    </td>
+                                    <td>
+                                        <p class="text-xs font-weight-bold mb-0">Q.{{s.mensual}}</p>
+                                    </td>
+                                    <td class="align-middle text-center">
+                                        <span
+                                            class="text-secondary text-xs font-weight-bold">{{c.fecha|date:"d-m-Y"}}</span>
+                                    </td>
+                                    <td class="align-middle">
+                                        <a href="{% url 'Actualizar' s.id_servicio %}" class="text-warning font-weight-bold text-xs" data-toggle="tooltip"
+                                            data-original-title="Edit user">
+                                            Modificar
+                                        </a><br>
+                                        <a href="{% url 'AltaServicio' s.id_servicio %}" class="text-info font-weight-bold text-xs" data-toggle="tooltip"
+                                            data-original-title="Edit user">
+                                            Alta
+                                        </a>
+                                        {% if c.estado == 1 %}
+                                        <a href="{% url 'BajaServicio' s.id_servicio %}" class="text-danger font-weight-bold text-xs" data-toggle="tooltip"
+                                            data-original-title="Edit user">
+                                            Baja
+                                        </a>
+                                        {% else %}
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+
+
+
+
+
+
+{% endblock %}

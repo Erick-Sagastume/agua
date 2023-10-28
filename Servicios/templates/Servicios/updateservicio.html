@@ -1,0 +1,76 @@
+{% extends 'Base/base.html' %}
+
+{% block title %}Nuevo Servicio{% endblock %}
+
+{% block content %}
+<a href="{% url 'NuevoServicio' %}" class="btn btn-info">Nuevo Servicio</a>
+<a href="{% url 'Cuenta2' %}" class="btn btn-warning"> Servicios Inactivos</a>
+<div class="container" style="background-color: white;"><br>
+    <div class="row">
+        <div class="col-md-6">
+            <h3>FORMULARIO MODIFICACION DE SERVICIO</h3>
+        </div>
+        <div class="col-md-6" align="right">
+            <a href="{% url 'Inicio' %}"><i class="material-icons opacity-10" style="font-size: 35px;"
+                    title="Inicio">Inicio</i></a>
+        </div>
+    </div>
+
+    <form action="#" method="POST" enctype="multipart/form-data">{% csrf_token %}
+
+        <div class="row">
+
+            <div class="col-md-4">
+           
+                    <label class="form-label">Nombre de Servicio</label>
+                    {{form.nombre}}
+               
+            </div>
+            <div class="col-md-4">
+             
+                    <label class="form-label">Limite</label>
+                    {{form.limite}}
+         
+            </div>
+            <div class="col-md-4">
+               
+                    <label class="form-label">Precio de Servicio</label>
+                    {{form.mensual}}
+           
+            </div>
+        </div>
+
+        <div class="row">
+
+            <div class="col-md-6">
+                <div class="input-group input-group-outline my-3">
+                    <input type="text" class="form-control" name="fecha" value="{% now 'd-m-Y' %}" readonly>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="input-group input-group-outline my-3">
+                    <input type="text" class="form-control" name="usuario" value="{{user.username}}" readonly>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="row">
+
+            <div class="col-md-6">
+                <button type="submit" class="btn btn-success">Guardar</button>
+                <button type="reset" class="btn btn-danger">Cancelar</button>
+            </div>
+
+        </div>
+
+        
+
+
+    </form>
+
+</div>
+
+
+{% endblock %}
