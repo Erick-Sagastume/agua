@@ -1,0 +1,161 @@
+{% extends 'Base/base.html' %}
+
+{% block title %}Cliente{% endblock %}
+
+{% block content %}
+
+
+<div class="container">
+    <a href="{% url 'NuevoCliente' %}" class="btn btn-info">Nuevo Cliente</a>
+    <a href="{% url 'ListaCliente2' %}" class="btn btn-warning"> Clientes Inactivos</a>
+</div>
+<div class="container-fluid py-4">
+
+    <nav aria-label="Page navigation example">
+        <ul class="pagination">
+            {% if page_obj.has_previous %}
+            <li class="page-item disabled">
+                <a class="page-link" href="?page={{ page_obj.previous_page_number }}">Previous</a>
+            </li>
+            {% endif %}
+
+
+            {% for i in page_obj.paginator.page_range %}
+
+            {% if i == page_obj.number %}
+            <li class="page-item active">
+                <a class="page-link" href="#">{{ i }}</a>
+            </li>
+            {% else %}
+            <li class="page-item">
+                <a class="page-link" href="?page={{ i }}">{{ i }}</a>
+            </li>
+            {% endif %}
+
+            {% endfor %}
+
+            {% if page_obj.has_next %}
+            <li class="page-item">
+                <a class="page-link" href="?page={{ page_obj.next_page_number }}">Next</a>
+            </li>
+            {% endif %}
+
+        </ul>
+    </nav>
+
+    <div class="row">
+
+        <div class="col-12">
+            <div class="card my-4">
+                <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+                    <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
+                        <h6 class="text-white text-capitalize ps-3">Listado de Clientes</h6>
+                    </div>
+                </div>
+                <div class="card-body px-0 pb-2">
+                    <div class="table-responsive p-0">
+                        <table class="table align-items-center mb-0">
+                            <thead>
+                                <tr>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                        ID_Cliente</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                        DPI</th>
+                                    <th
+                                        class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+                                        Nombres y Apellidos</th>
+                                    <th
+                                        class="text-uppercase text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                        Direccion</th>
+                                    <th
+                                        class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                        Status</th>
+                                    <th
+                                        class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                        Servicios</th>
+                                  
+                                    <th
+                                        class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                        Antiguedad</th>
+                                     <th class="text-secondary opacity-7"></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for c in cliente %}
+                                <tr>
+                                    <td>
+                                        <div class="d-flex px-2 py-1">
+                                            <div class="d-flex flex-column justify-content-center">
+                                                <h6 class="mb-0 text-sm">{{c.id_cliente}}</h6>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="d-flex px-2 py-1">
+                                            <div class="d-flex flex-column justify-content-center">
+                                                <h6 class="mb-0 text-sm">{{c.dpi}}</h6>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <p class="text-xs font-weight-bold mb-0">{{c.nombre}} {{c.apellido}}</p>
+                                    </td>
+                                    <td>
+                                        <p class="text-xs font-weight-bold mb-0">{{c.direccion}}</p>
+                                    </td>
+                                    <td class="align-middle text-center text-sm">
+                                        {% if c.estado == 1 %}
+                                        <span class="badge badge-sm bg-gradient-success">Alta</span>
+                                        {% elif c.estado == 2 %}
+                                        <span class="badge badge-sm bg-gradient-warning">Suspendido</span>
+                                        {% else %}
+                                        <span class="badge badge-sm bg-gradient-danger">Baja</span>
+                                        {% endif %}
+                                    </td>
+                                    <td class="align-middle text-center text-sm">
+                                        <a href="{% url 'DetalleServicioCliente' c.id_cliente %}"><span class="badge badge-sm bg-gradient-info">Ver</span></a>
+                                    </td>
+                                
+                                    <td class="align-middle text-center">
+                                        <span
+                                            class="text-secondary text-xs font-weight-bold">{{c.fecha|date:"d-m-Y"}}</span>
+                                    </td>
+                          
+                                    {% if c.estado == 1 %}
+                                    <td class="align-middle">
+                                        <a href="{% url 'ActualizarCliente' c.dpi %}" class="text-warning font-weight-bold text-xs" data-toggle="tooltip"
+                                            data-original-title="Edit user">
+                                            Modificar
+                                        </a><br>
+                                        <a href="{% url 'BajaCliente' c.dpi %}" class="text-danger font-weight-bold text-xs" data-toggle="tooltip"
+                                            data-original-title="Edit user">
+                                            Dar Baja
+                                        </a> 
+                                                                       
+                                    </td>
+                                    {% else %}
+                                    <td class="align-middle">
+                                        <a href="{% url 'ActualizarCliente' c.dpi %}" class="text-warning font-weight-bold text-xs" data-toggle="tooltip"
+                                            data-original-title="Edit user">
+                                            Modificar
+                                        </a><br>     
+                                        <a href="{% url 'AltaCliente' c.dpi %}" class="text-info font-weight-bold text-xs" data-toggle="tooltip"
+                                        data-original-title="Edit user">
+                                        Dar Alta
+                                    </a>                                 
+                                    </td>
+                                    {% endif %}
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}
