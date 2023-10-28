@@ -1,0 +1,19 @@
+{% extends 'Base/baselogin.html' %}
+
+{% block content %}
+
+<form role="form" class="text-start" action="#" method="POST" enctype="multipart/form-data">{% csrf_token %}
+    <div class="input-group input-group-outline my-3">
+      <input type="text" class="form-control" name="username" autofocus="username" placeholder="Usuario" required>
+    </div>
+    <div class="input-group input-group-outline mb-3">
+      <input type="password" class="form-control" name="password" placeholder="Password" required>
+    </div>
+    
+    <div class="text-center">
+      <button type="submit" class="btn bg-gradient-info w-100 my-4 mb-2">Ingresar</button>
+    </div>
+  </form>
+
+
+{% endblock %}
